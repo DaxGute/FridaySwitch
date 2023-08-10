@@ -4,13 +4,13 @@
     let client_secret
     
     async function getClientSpecs() {
-		const response = await fetch('/auth');
-		let clientSpecs = await response.json();
+      const response = await fetch('/auth');
+      let clientSpecs = await response.json();
 
-        client_id = clientSpecs["client_id"]
-        client_secret = clientSpecs["client_secret"]
-        console.log(client_id)
-	}
+      client_id = clientSpecs["client_id"]
+      client_secret = clientSpecs["client_secret"]
+      console.log(client_id)
+	  }
 </script>
 
 <h1>Welcome to SvelteKit</h1>
