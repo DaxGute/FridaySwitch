@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 
-export async function GET({ request, params, url }) {  
+export async function GET({ request, params, url }) {  // see if we can use the params 
 
     console.log("(auth/callback/+server.js) this is the url we received: " + url)
     let paramString = url.split('?')[1];

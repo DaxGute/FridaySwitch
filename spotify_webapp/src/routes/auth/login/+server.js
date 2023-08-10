@@ -18,6 +18,8 @@ export function GET() {
 
   var state = generateRandomString(16);
 
+  console.log("(auth/login/+server.js)")
+
   var auth_query_parameters = new URLSearchParams({
     response_type: "code",
     client_id: spotify_client_id,
