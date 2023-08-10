@@ -1,4 +1,5 @@
 import { redirect } from '@sveltejs/kit';
+import {SPOTIFY_CLIENT_ID} from '$env/static/private'
 
 var generateRandomString = function (length) {
     var text = '';
@@ -22,7 +23,7 @@ export function GET() {
 
   var auth_query_parameters = new URLSearchParams({
     response_type: "code",
-    client_id: spotify_client_id,
+    client_id: SPOTIFY_CLIENT_ID,
     scope: scope,
     redirect_uri: "http://localhost:5173/auth/callback",
     state: state

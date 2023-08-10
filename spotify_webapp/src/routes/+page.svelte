@@ -9,6 +9,8 @@
     let response = await fetch('/auth/token');
     let tokenJson = await response.json();
     token = tokenJson["access_token"]
+    console.log("(+page) token is " + token)
+
   })
 
   let client_id
@@ -29,7 +31,7 @@
   
 </script>
 
-{#if token === ""}
+{#if token === undefined}
   <Login/>
 {:else}
   <WebPlayback token={token} />
