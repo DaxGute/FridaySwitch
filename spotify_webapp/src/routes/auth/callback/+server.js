@@ -11,18 +11,18 @@ export async function GET({ request, params, url }) {  // see if we can use the 
     var code = queryString.get('code')
     console.log("(auth/callback/+server.js) code is: " + code)
 
+    const data = new URLSearchParams();
+    data.append('grant_type', 'authorization_code');
+    data.append('code', code);
+    data.append('redirect_uri', "http://localhost:5173/auth/callback");
+
     const response = await fetch('https://accounts.spotify.com/api/token', {
       method: "POST",
+      body: data,
       headers: {
         'Authorization': 'Basic ' + (Buffer.from(SPOTIFY_CLIENT_ID + ':' + SPOTIFY_CLIENT_SECRET).toString('base64')),
         'Content-Type' : 'application/x-www-form-urlencoded'
       },
-      body: JSON.stringify({
-        code: code,
-        redirect_uri: "http://localhost:5173/auth/callback",
-        grant_type: 'authorization_code'
-      }),
-      json: true
     })
     let callback = await response.json()
 

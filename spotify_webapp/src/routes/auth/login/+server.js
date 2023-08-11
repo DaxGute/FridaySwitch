@@ -29,5 +29,5 @@ export function GET() {
     state: state
   })
 
-  throw redirect(307, 'https://accounts.spotify.com/authorize/?' + auth_query_parameters.toString());
+  throw redirect(303, 'https://accounts.spotify.com/authorize/?' + auth_query_parameters.toString());
 }
