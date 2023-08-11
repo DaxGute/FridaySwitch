@@ -29,6 +29,6 @@ export async function GET({ request, params, url }) {  // see if we can use the 
     console.log("(auth/callback/+server.js) this is what callback looks like: " + JSON.stringify(callback,null,2))
     
     env.SPOTIFY_CLIENT_ACCESS_TOKEN = callback["access_token"];
-    console.log(env.SPOTIFY_CLIENT_ACCESS_TOKEN)
+    env.SPOTIFY_CLIENT_REFRESH_TOKEN = callback["refresh_token"]
     throw redirect(307, '/');
 }

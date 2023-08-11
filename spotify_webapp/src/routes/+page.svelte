@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
   import Login from './Login.svelte'
   import WebPlayback from './WebPlayback.svelte';
+  import Profile from './Profile.svelte';
 
   let token = ""
 
@@ -41,3 +42,5 @@
 <p>Client ID = {client_id}</p>
 <p>Client Secret = {client_secret}</p>
 <p>Client Token = {client_token}</p>
+
+<Profile token={token}/>
