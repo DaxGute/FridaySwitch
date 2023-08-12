@@ -4,12 +4,12 @@ import {SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET} from '$env/static/private'
 
 export async function GET({ request, params, url }) {  // see if we can use the params 
 
-    console.log("(auth/callback/+server.js) this is the param we received: " + params)
+    // console.log("(auth/callback/+server.js) this is the param we received: " + params)
     let paramString = url.toString().split('?')[1];
     let queryString = new URLSearchParams(paramString);
 
     var code = queryString.get('code')
-    console.log("(auth/callback/+server.js) code is: " + code)
+    // console.log("(auth/callback/+server.js) code is: " + code)
 
     const data = new URLSearchParams();
     data.append('grant_type', 'authorization_code');
@@ -26,7 +26,7 @@ export async function GET({ request, params, url }) {  // see if we can use the 
     })
     let callback = await response.json()
 
-    console.log("(auth/callback/+server.js) this is what callback looks like: " + JSON.stringify(callback,null,2))
+    // console.log("(auth/callback/+server.js) this is what callback looks like: " + JSON.stringify(callback,null,2))
     
     env.SPOTIFY_CLIENT_ACCESS_TOKEN = callback["access_token"];
     env.SPOTIFY_CLIENT_REFRESH_TOKEN = callback["refresh_token"]

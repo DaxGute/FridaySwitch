@@ -10,8 +10,8 @@
             method: "GET", headers: { Authorization: `Bearer ${token}` }
         });
         let resultJSON = await result.json()
-        console.log("profile.svelt")
-        console.log(resultJSON)
+       
+        // console.log(resultJSON)
         profileName = resultJSON["display_name"]
         profileEmail = resultJSON["email"]
         profileImgSrc = resultJSON["images"][1]["url"]
