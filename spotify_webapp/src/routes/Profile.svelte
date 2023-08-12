@@ -30,7 +30,7 @@
 <div class="rounded-box {isVisible ? '' : 'active'}">
     <img src={profileImgSrc} alt="profile_photo"/>
     <p><strong>{profileName}</strong></p>
-    <p style="margin-top:-10px">{profileEmail}</p>
+    <p style="margin-top:-10px; color: #777;">{profileEmail}</p>
     <button on:click={toggleBox}><u>{isVisible ? "[hide]" : "[show]"}</u></button>
 </div>
 
@@ -71,8 +71,16 @@
   .rounded-box button {
     background-color: transparent;
     border: none;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: -10px;
     color: white;
     cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .rounded-box button:hover {
+    background-color: rgba(0, 0, 0, 0.2);
   }
   
 </style>
