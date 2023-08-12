@@ -4,7 +4,6 @@
     import {onMount} from 'svelte'
 
     let is_paused = false
-    let is_active = false
     let current_track = {
             name: "",
             album: {
@@ -17,50 +16,58 @@
             ]
         }
 
-    let player
+    async function getCurrentState(){
+        const result = await fetch("https://api.spotify.com/v1/me/player",{
+            method: "GET", headers: { Authorization: `Bearer ${token}` }
+        })
+        let resultJSON = await result.json() // for some rzn spotify has to be open for this to read anything
+        
+        current_track = {
+            name: resultJSON.item.name,
+            album: resultJSON.item.album,
+            artists: resultJSON.item.artists,
+        }
+        is_paused = !resultJSON.is_playing
+    }
+    
+
     onMount(() => {
-
-        window.onSpotifyWebPlaybackSDKReady = () => {
-            player = new window.Spotify.Player({
-                name: 'Web Playback SDK',
-                getOAuthToken: cb => { cb(token); },
-                volume: 0.5
-            });
-
-            player.addListener('ready', ({ device_id }) => {
-                console.log('Ready with Device ID', device_id);
-            });
-
-            player.addListener('not_ready', ({ device_id }) => {
-                console.log('Device ID has gone offline', device_id);
-            });
-
-            player.addListener('player_state_changed', ( state => {
-                console.log(state)
-                if (!state) {
-                    return;
-                }
-
-                current_track = state.track_window.current_track
-                is_paused = state.paused
-
-                player.getCurrentState().then( state => { 
-                    is_active = (!state)? false : true
-                });
-            }))
-
-            player.connect();
-        };
+        setTimeout(getCurrentState,1000) //somehow the delay between onmount makes it work
+        setInterval(getCurrentState,10000)
     })
-
-    function prevTrack(){
-        player.previousTrack()
+    
+    async function prevTrack(){
+        let response = await fetch("https://api.spotify.com/v1/me/player/previous", {
+            method: "POST", headers: { Authorization: `Bearer ${token}` }
+        })
+        // let responseJSON = await response.json() // BUG TESTING ONLY
+        // console.log(responseJSON)
+        getCurrentState()
     }
-    function togglePlay(){
-        player.togglePlay()
+    async function togglePlay(){
+        let response
+        if (is_paused) {
+            response = await fetch("https://api.spotify.com/v1/me/player/play", {
+                method: "PUT", headers: { Authorization: `Bearer ${token}` }
+            })
+            is_paused = false
+        }else{
+            response = await fetch("https://api.spotify.com/v1/me/player/pause", {
+                method: "PUT", headers: { Authorization: `Bearer ${token}` }
+            })
+            is_paused = true
+        }
+        // let responseJSON = await response.json() // BUG TESTING ONLY
+        // console.log(responseJSON)
+        getCurrentState()
     }
-    function nextTrack(){
-        player.nextTrack()
+    async function nextTrack(){
+        let response = await fetch("https://api.spotify.com/v1/me/player/next", {
+            method: "POST", headers: { Authorization: `Bearer ${token}` }
+        })
+        // let responseJSON = await response.json() // BUG TESTING ONLY
+        // console.log(responseJSON)
+        getCurrentState()
     }
 
 </script>
@@ -71,7 +78,7 @@
 
         <div class="now-playing__side">
             <div class="now-playing__name">
-                {current_track.name}
+                <strong>{current_track.name}</strong>
             </div>
 
             <div class="now-playing__artist">
@@ -79,15 +86,15 @@
             </div>
         </div>
     </div>
-    <button class="btn-spotify" onClick={prevTrack} >
+    <button class="btn-spotify" on:click={prevTrack} >
         &lt;&lt;
     </button>
   
-    <button class="btn-spotify" onClick={togglePlay} >
+    <button class="btn-spotify" on:click={togglePlay} >
         { is_paused ? "PLAY" : "PAUSE" }
     </button>
   
-    <button class="btn-spotify" onClick={nextTrack} >
+    <button class="btn-spotify" on:click={nextTrack} >
             &gt;&gt;
     </button>
 </div>

@@ -15,7 +15,9 @@ var generateRandomString = function (length) {
 export function GET() {  
   var scope = "streaming \
                user-read-email \
-               user-read-private"
+               user-read-private \
+               user-read-currently-playing\
+               user-read-playback-state "
 
   var state = generateRandomString(16);
 
