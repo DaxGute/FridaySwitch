@@ -37,36 +37,22 @@
     })
     
     async function prevTrack(){
-        let response = await fetch("https://api.spotify.com/v1/me/player/previous", {
-            method: "POST", headers: { Authorization: `Bearer ${token}` }
-        })
-        // let responseJSON = await response.json() // BUG TESTING ONLY
-        // console.log(responseJSON)
+        await fetch("/actions/prev")
         getCurrentState()
     }
     async function togglePlay(){
         let response
         if (is_paused) {
-            response = await fetch("https://api.spotify.com/v1/me/player/play", {
-                method: "PUT", headers: { Authorization: `Bearer ${token}` }
-            })
+            await fetch("/actions/next")
             is_paused = false
         }else{
-            response = await fetch("https://api.spotify.com/v1/me/player/pause", {
-                method: "PUT", headers: { Authorization: `Bearer ${token}` }
-            })
+            await fetch("/actions/pause")
             is_paused = true
         }
-        // let responseJSON = await response.json() // BUG TESTING ONLY
-        // console.log(responseJSON)
         getCurrentState()
     }
     async function nextTrack(){
-        let response = await fetch("https://api.spotify.com/v1/me/player/next", {
-            method: "POST", headers: { Authorization: `Bearer ${token}` }
-        })
-        // let responseJSON = await response.json() // BUG TESTING ONLY
-        // console.log(responseJSON)
+        await fetch("/actions/next")
         getCurrentState()
     }
 
