@@ -31,7 +31,7 @@
   
 </script>
 
-{#if token === undefined}
+{#if token === ''}
   <Login/>
 {:else}
   <WebPlayback token={token} />

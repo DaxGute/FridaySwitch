@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 // import { env } from '$env/dynamic/private';
-import {SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_CLIENT_TOKEN} from '$env/static/private'
+import {SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_CLIENT_ACCESS_TOKEN, SPOTIFY_CLIENT_REFRESH_TOKEN} from '$env/static/private'
 
 export async function GET({ request, params, url }) {  // see if we can use the params 
 
