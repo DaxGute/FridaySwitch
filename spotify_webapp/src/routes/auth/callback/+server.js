@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
-// import { env } from '$env/dynamic/private';
-import {SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_CLIENT_ACCESS_TOKEN, SPOTIFY_CLIENT_REFRESH_TOKEN} from '$env/static/private'
+import { env } from '$env/dynamic/private';
+import {SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET} from '$env/static/private'
 
 export async function GET({ request, params, url }) {  // see if we can use the params 
 
@@ -28,7 +28,7 @@ export async function GET({ request, params, url }) {  // see if we can use the 
 
     // console.log("(auth/callback/+server.js) this is what callback looks like: " + JSON.stringify(callback,null,2))
     
-    SPOTIFY_CLIENT_ACCESS_TOKEN = callback["access_token"];
-    SPOTIFY_CLIENT_REFRESH_TOKEN = callback["refresh_token"]
+    env.SPOTIFY_CLIENT_ACCESS_TOKEN = callback["access_token"];
+    env.SPOTIFY_CLIENT_REFRESH_TOKEN = callback["refresh_token"]
     throw redirect(307, '/');
 }

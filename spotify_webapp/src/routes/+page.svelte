@@ -4,13 +4,13 @@
   import WebPlayback from './WebPlayback.svelte';
   import Profile from './Profile.svelte';
 
-  let token = ""
+  let hasToken = false
 
   onMount(async () => {
-    let response = await fetch('/auth/token');
+    let response = await fetch('/auth/hasToken');
     let tokenJson = await response.json();
-    token = tokenJson["access_token"]
-    console.log("(+page) token is " + token)
+    hasToken = tokenJson["hasToken"]
+    // console.log("(+page) token is " + token)
   })
 
   let client_id
@@ -23,18 +23,18 @@
       client_id = clientSpecs["client_id"]
       client_secret = clientSpecs["client_secret"]
 
-      const tokenResponse = await fetch('/auth/token')
+      const tokenResponse = await fetch('/auth/hasToken')
       let tokenSpecs = await tokenResponse.json()
 
-      client_token = tokenSpecs["access_token"]
+      client_token = tokenSpecs["hasToken"]
 	  }
   
 </script>
 
-{#if token === ''}
+{#if !hasToken}
   <Login/>
 {:else}
-  <WebPlayback token={token} />
+  <WebPlayback/>
 {/if}
 
 <button on:click={getClientSpecs}>Get Client Specifications</button>
@@ -42,4 +42,4 @@
 <p>Client Secret = {client_secret}</p>
 <p>Client Token = {client_token}</p>
 
-<Profile token={token}/>
+<Profile/>

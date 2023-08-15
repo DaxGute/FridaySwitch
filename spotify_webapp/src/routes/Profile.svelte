@@ -1,15 +1,12 @@
 <script>
     import { onMount } from "svelte";
-    export let token
 
     let profileImgSrc
     let profileName
     let profileEmail
     async function fetchProfile() {
-        const result = await fetch("https://api.spotify.com/v1/me", {
-            method: "GET", headers: { Authorization: `Bearer ${token}` }
-        });
-        let resultJSON = await result.json()
+        let response = await fetch("/actions/getProfile", {method: "GET"});
+        let resultJSON = await response.json()
        
         // console.log(resultJSON)
         profileName = resultJSON["display_name"]

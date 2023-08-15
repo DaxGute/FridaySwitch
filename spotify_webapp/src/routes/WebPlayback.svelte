@@ -1,6 +1,4 @@
 <script>
-    export let token
-
     import {onMount} from 'svelte'
 
     let is_paused = false
@@ -17,10 +15,8 @@
         }
 
     async function getCurrentState(){
-        const result = await fetch("https://api.spotify.com/v1/me/player",{
-            method: "GET", headers: { Authorization: `Bearer ${token}` }
-        })
-        let resultJSON = await result.json() // for some rzn spotify has to be open for this to read anything
+        let response = await fetch("/actions/getPlayer", {method: "GET"});
+        let resultJSON = await response.json() // for some rzn spotify has to be recently playing for this to work
         
         current_track = {
             name: resultJSON.item.name,
@@ -37,22 +33,33 @@
     })
     
     async function prevTrack(){
-        await fetch("/actions/prev")
+        let response = await fetch("/actions/prev", {method: "POST"})
+        let responseJSON = await response.json()
+        // console.log(responseJSON)
+        
         getCurrentState()
     }
     async function togglePlay(){
         let response
         if (is_paused) {
-            await fetch("/actions/next")
+            response = await fetch("/actions/play", {method: "PUT"})
+    
             is_paused = false
         }else{
-            await fetch("/actions/pause")
+            response = await fetch("/actions/pause", {method: "PUT"})
+
             is_paused = true
         }
+        let responseJSON = await response.json()
+        // console.log(responseJSON)
+
         getCurrentState()
     }
     async function nextTrack(){
-        await fetch("/actions/next")
+        let response = await fetch("/actions/next", {method: "POST"})
+        let responseJSON = await response.json()
+        // console.log(responseJSON)
+
         getCurrentState()
     }
 
